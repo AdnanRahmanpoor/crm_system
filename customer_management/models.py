@@ -26,3 +26,12 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Document(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True, related_name='documents')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True, related_name='documents')
+    file = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.file.name
