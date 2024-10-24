@@ -1,35 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Project List</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-  <link rel="icon" href="favicon.png">
-</head>
-<body>
-  <h1>Project List</h1>
-  <a href="{% url 'project_create' %}">Add New Project</a>
-  <table>
-    <tr>
-        <th>Title</th>
-        <th>Customer</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-    {% for project in projects %}
-    <tr>
-        <td>{{ project.title }}</td>
-        <td>{{ project.customer.name }}</td>
-        <td>{{ project.get_status_display }}</td>
-        <td>
-            <a href="{% url 'project_edit' project.pk  %}">Edit</a>
-            <form action="{% url 'project_delete' project.pk %}" method="POST" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</body>
-</html>
+{% extends 'customer_management/base.html' %}
+
+{% block title %}Customer List{% endblock %}
+
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Project List</h1>
+    </div>
+    <div class="row">
+        <!-- Dashboard Content Goes Here -->
+        <a href="{% url 'project_create' %}">Add New Project</a>
+        <table>
+          <tr>
+              <th>Title</th>
+              <th>Customer</th>
+              <th>Status</th>
+              <th>Actions</th>
+          </tr>
+          {% for project in projects %}
+          <tr>
+              <td>{{ project.title }}</td>
+              <td>{{ project.customer.name }}</td>
+              <td>{{ project.get_status_display }}</td>
+              <td>
+                  <a href="{% url 'project_edit' project.pk  %}">Edit</a>
+                  <form action="{% url 'project_delete' project.pk %}" method="POST" style="display:inline;">
+                      {% csrf_token %}
+                      <button type="submit">Delete</button>
+                  </form>
+              </td>
+          </tr>
+          {% endfor %}
+    
+    </div>
+  </main>
+
+{% endblock %}

@@ -1,19 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Create/Edit Projects</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-  <link rel="icon" href="favicon.png">
-</head>
-<body>
-  <h1>{{ form.instance.pk|yesno:"Edit Project,New Project" }}</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-  </form>
-  <a href="{% url 'project_list' %}">Back to List</a>
-</body>
-</html>
+{% extends 'customer_management/base.html' %}
+
+{% block title %}Customer List{% endblock %}
+
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Dashboard</h1>
+  </div>
+  <div class="row">
+      <!-- Dashboard Content Goes Here -->
+  
+      <h1>{{ form.instance.pk|yesno:"Edit Project,New Project" }}</h1>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+      </form>
+      <a href="{% url 'project_list' %}">Back to List</a>
+  </div>
+</main>
+
+
+{% endblock %}

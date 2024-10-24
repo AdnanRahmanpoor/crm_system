@@ -2,6 +2,22 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Customer, Project, Document
 from .forms import CustomerForm, ProjectForm, DocumentForm
 
+def dashboard(request):
+
+    total_customers = Customer.objects.count()
+    not_started_projects = Project.objects.filter(status='not_started').count()
+    ongoing_projects = Project.objects.filter(status='in_progress').count()
+    completed_projects = Project.objects.filter(status='completed').count()
+
+    context = {
+        'total_customers': total_customers,
+        'not_started_projects': not_started_projects,
+        'ongoing_projects': ongoing_projects,
+        'completed_projects': completed_projects
+    }
+
+    return render(request, 'customer_management/dashboard.html', context)
+
 # List all customers
 def customer_list(request):
     customers = Customer.objects.all()

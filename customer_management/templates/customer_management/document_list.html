@@ -1,25 +1,30 @@
-<!DOCTYPE html>
-<html lang="">
-<head>
-  <meta charset="UTF-8" />
-  <title>Document List</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-  <link rel="icon" href="favicon.png">
-</head>
-<body>
-  <h1>Documents</h1>
-  <ul>
-    {% for document in documents %}
-    <li>
-        <a href="{{ document.file.url }}">{{ document.file.name }}</a>
-        <a href="{% url 'document_delete' document.id %}">Delete</a>
-    </li>
-    {% empty %}
-      <li>No documents found.</li>
-    {% endfor %}
-  </ul>
+{% extends 'customer_management/base.html' %}
 
-  <a href="{% url 'document_upload' %}">Upload New Document</a>
-</body>
-</html>
+{% block title %}Documents{% endblock %}
+
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Documents</h1>
+  </div>
+  <div class="row">
+      <!-- Dashboard Content Goes Here -->
+      
+      <ul>
+        {% for document in documents %}
+        <li>
+            <a href="{{ document.file.url }}">{{ document.file.name }}</a>
+            <a href="{% url 'document_delete' document.id %}">Delete</a>
+        </li>
+        {% empty %}
+          <li>No documents found.</li>
+        {% endfor %}
+      </ul>
+    
+      <a href="{% url 'document_upload' %}">Upload New Document</a>
+  
+  </div>
+</main>
+
+{% endblock %}
