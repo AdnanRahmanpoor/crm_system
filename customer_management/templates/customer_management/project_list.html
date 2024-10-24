@@ -4,11 +4,12 @@
 
 {% block content %}
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Project List</h1>
-    </div>
-    <div class="row">
+<div class="w-full overflow-x-hidden border-t flex flex-col">
+    <main class="w-full flex-grow p-6">
+       
+        
+        <h1 class="text-3xl text-black pb-6">Project List</h1>
+    
         <!-- Dashboard Content Goes Here -->
         <a href="{% url 'project_create' %}">Add New Project</a>
         <table>
@@ -33,7 +34,7 @@
           </tr>
           {% endfor %}
     
+        </main>
     </div>
-  </main>
 
 {% endblock %}

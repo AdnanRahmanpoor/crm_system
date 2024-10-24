@@ -4,15 +4,16 @@
 
 {% block content %}
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Customer List</h1>
-    </div>
-    <div class="row">
+<div class="w-full overflow-x-hidden border-t flex flex-col">
+    <main class="w-auto flex-grow p-6 rounded-lg bg-gray-200 md:ml-0 m-3 overflow-auto">
+       
+        
+        <h1 class="text-3xl text-black pb-6">Customer List</h1>
+    
         <!-- Dashboard Content Goes Here -->
     
-        <a href="{% url 'customer_create' %}">Add New Customer</a>
-        <table>
+        <a href="{% url 'customer_create' %}" class='py-2.5 px-6 text-sm bg-indigo-500 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700 '>Add New Customer</a>
+        <table class="my-6">
           <tr>
               <th>Name</th>
               <th>Email</th>
@@ -21,23 +22,71 @@
               <th>Actions</th>
           </tr>
           {% for customer in customers %}
-          <tr>
-              <td><a href="{% url 'customer_detail' customer.id %}">{{ customer.name}}</a></td>
-              <td>{{ customer.email }}</td>
-              <td>{{ customer.phone }}</td>
-              <td>{{ customer.company }}</td>
-              <td>
-                  <a href="{% url 'customer_edit' customer.pk  %}" class="btn btn-warning">Edit</a>
-                  <form action="{% url 'customer_delete' customer.pk %}" method="POST" style="display:inline;">
-                      {% csrf_token %}
-                      <a href="{% url 'customer_delete' customer.id %}" class="btn btn-danger">Delete</a>
+          <tr class='bg-white shadow-lg shadow-gray-300'>
+              <td class="px-3 rounded-l-lg"><a href="{% url 'customer_detail' customer.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ customer.name}}</a></td>
+              <td class="px-3">{{ customer.email }}</td>
+              <td class="px-3">{{ customer.phone }}</td>
+              <td class="px-3">{{ customer.company }}</td>
+              <td class="px-3 rounded-r-lg">
+                  
+                    <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
+                        <a href="{% url 'customer_edit' customer.pk  %}" class="btn btn-warning">
 
-                  </form>
+                            <button
+                            class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500 focus:relative transition-all duration-500 hover:text-black hover:bg-yellow-400"
+                            >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="size-4"
+                            >
+                                <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                                />
+                            </svg>
+                        
+                            Edit
+                            </button>
+                        </a>
+
+                        <form action="{% url 'customer_delete' customer.pk %}" method="POST" style="display:inline;" class="px-1">
+                            {% csrf_token %}
+                            
+                            <a href="{% url 'customer_delete' customer.id %}">
+                            <button
+                            class="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm hover:bg-red-600 hover:text-white transition-all duration-500 focus:relative"
+                            >
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-4"
+                            >
+                            <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                            />
+                            </svg>
+                        
+                            Delete
+                            </button>
+                            </a>
+                        </form>             
+                    </div>
               </td>
+              
           </tr>
           {% endfor %}
+        </main>
     </div>
-</main>
   
 
 {% endblock %}
