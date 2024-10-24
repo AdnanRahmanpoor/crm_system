@@ -1,0 +1,52 @@
+{% extends "customer_management/base.html" %}
+
+{% block title %}Customers{% endblock %}
+
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{ customer.name }}</h1>
+    </div>
+    <div class="row">
+        <!-- Dashboard Content Goes Here -->
+        
+        <p>Email: {{ customer.email }}</p>
+        <p>Phone: {{ customer.phone }}</p>
+
+        <h2>Projects for {{ customer.name }}</h2>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+            </tr>
+            {% for project in projects %}
+            <tr>
+                <td><a href="{% url 'project_detail' project.id %}">{{ project.title }}</a></td>
+                <td>{{ project.status }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="2">No projects for this customer.</td></tr>
+            {% endfor %}
+        </table>
+
+        <h2>Documents for {{ customer.name }}</h2>
+        <table>
+            <tr>
+                <th>Document Name</th>
+            </tr>
+            {% for document in documents %}
+            <tr>
+                <td><a href="{{ document.file.url }}">{{ document.file.name }}</a></td>
+            </tr>
+            {% empty %}
+            <tr><td>No documents available for this customer.</td></tr>
+            {% endfor %}
+        </table>
+
+        
+    </div>
+</main>
+  
+
+{% endblock %}

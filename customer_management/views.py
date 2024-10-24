@@ -34,6 +34,20 @@ def customer_create(request):
         form = CustomerForm()
     return render(request, 'customer_management/customer_form.html', {'form': form})
 
+# view customer
+def customer_detail(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    projects = Project.objects.filter(customer=customer)
+    documents = Document.objects.filter(customer=customer)
+
+    context = {
+        'customer': customer,
+        'projects': projects,
+        'documents': documents,
+    }
+
+    return render(request, 'customer_management/customer_detail.html', context)
+
 # editing a customer
 def customer_edit(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
@@ -71,6 +85,18 @@ def project_create(request):
     else:
         form = ProjectForm()
     return render(request, 'customer_management/project_form.html', {'form': form})
+
+# view a project
+def project_detail(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    documents = Document.objects.filter(project=project)
+
+    context = {
+        'project': project,
+        'documents': documents,
+    }
+
+    return render(request, 'customer_management/project_detail.html', context)
 
 # editing a project
 def project_edit(request, pk):

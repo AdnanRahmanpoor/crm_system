@@ -20,8 +20,8 @@
           </tr>
           {% for project in projects %}
           <tr>
-              <td>{{ project.title }}</td>
-              <td>{{ project.customer.name }}</td>
+              <td><a href="{% url 'project_detail' project.id %}">{{ project.title}}</a></td>
+              <td><a href="{% url 'customer_detail' project.customer.id %}">{{ project.customer.name }}</a></td>
               <td>{{ project.get_status_display }}</td>
               <td>
                   <a href="{% url 'project_edit' project.pk  %}">Edit</a>

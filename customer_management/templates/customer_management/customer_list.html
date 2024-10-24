@@ -22,15 +22,16 @@
           </tr>
           {% for customer in customers %}
           <tr>
-              <td>{{ customer.name }}</td>
+              <td><a href="{% url 'customer_detail' customer.id %}">{{ customer.name}}</a></td>
               <td>{{ customer.email }}</td>
               <td>{{ customer.phone }}</td>
               <td>{{ customer.company }}</td>
               <td>
-                  <a href="{% url 'customer_edit' customer.pk  %}">Edit</a>
+                  <a href="{% url 'customer_edit' customer.pk  %}" class="btn btn-warning">Edit</a>
                   <form action="{% url 'customer_delete' customer.pk %}" method="POST" style="display:inline;">
                       {% csrf_token %}
-                      <button type="submit">Delete</button>
+                      <a href="{% url 'customer_delete' customer.id %}" class="btn btn-danger">Delete</a>
+
                   </form>
               </td>
           </tr>

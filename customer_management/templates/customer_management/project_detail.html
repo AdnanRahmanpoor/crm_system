@@ -1,0 +1,36 @@
+{% extends 'customer_management/base.html' %}
+
+{% block title %}Customer List{% endblock %}
+
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{ project.title }}</h1>
+    </div>
+    <div class="row">
+        <!-- Dashboard Content Goes Here -->
+        <p>Description: {{ project.description }}</p>
+        <p>Status: {{ project.get_status_display }}</p>
+        <p>Start Date: {{ project.start_date }}</p>
+        <p>End Date: {{ project.end_date }}</p>
+        
+        <h2>Documents for {{ project.title }}</h2>
+        <table>
+            <tr>
+                <th>Document Name</th>
+            </tr>
+            {% for document in documents %}
+            <tr>
+                <td><a href="{{ document.file.url }}">{{ document.file.name }}</a></td>
+            </tr>
+            {% empty %}
+            <tr><td>No documents available for this project.</td></tr>
+            {% endfor %}
+        </table>
+
+  </div>
+</main>
+
+
+{% endblock %}
