@@ -4,25 +4,25 @@
 
 {% block content %}
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<main class="w-auto flex-grow p-6 rounded-lg bg-gray-200 md:ml-0 m-3 overflow-auto">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Documents</h1>
+      {% comment %} <h1 class="text-3xl text-black pb-6">Documents</h1> {% endcomment %}
+      <a href="{% url 'document_upload' %}" class='py-2.5 px-6 text-sm bg-indigo-500 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700'>Upload New Document</a>
   </div>
   <div class="row">
       <!-- Dashboard Content Goes Here -->
       
-      <ul>
+      <ul class="w-full">
         {% for document in documents %}
-        <li>
-            <a href="{{ document.file.url }}">{{ document.file.name }}</a>
-            <a href="{% url 'document_delete' document.id %}">Delete</a>
+        <li class="bg-white shadow-lg shadow-gray-300 rounded-lg px-3 py-1 flex justify-between items-center">
+            <a href="{{ document.file.url }}" >{{ document.file.name }}</a>
+            <a href="{% url 'document_delete' document.id %}" class="inline-flex items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm text-white shadow-sm hover:bg-red-900 transition-all duration-500 focus:relative">Delete</a>
         </li>
         {% empty %}
           <li>No documents found.</li>
         {% endfor %}
       </ul>
     
-      <a href="{% url 'document_upload' %}">Upload New Document</a>
   
   </div>
 </main>

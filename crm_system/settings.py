@@ -60,7 +60,7 @@ ROOT_URLCONF = 'crm_system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +74,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'crm_system.wsgi.application'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+
+LOGOUT_REDIRECT_URL = 'login'
+
 
 
 # Database

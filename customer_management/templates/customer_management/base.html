@@ -4,31 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRM Dashboard</title>
-    {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> {% endcomment %}
     <!-- Load custom static files -->
      {% load static %}
     <link rel="stylesheet" href="{% static "css/output.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
 
-<!-- navbar -->
- 
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind Admin Template</title>
-    <meta name="author" content="David Grzyb">
-    <meta name="description" content="">
-
-    {% comment %} <!-- Tailwind -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"> {% endcomment %}
-    {% comment %} <style>
-        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
-        .font-family-karla { font-family: karla; }
-        .bg-sidebar { background: #001440; }
-        .active-nav-link { background: #1947ee; }
-        .nav-item:hover { background: #1947ee; }
-        .account-link:hover { background: #3d68ff; }
-    </style> {% endcomment %}
 </head>
 <body class="bg-white font-family-karla flex">
 
@@ -38,222 +18,132 @@
             
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-            <a href="{% url 'dashboard' %}" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-                <i class="fas fa-tachometer-alt mr-3"></i>
+            <a href="{% url 'dashboard' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item {% if request.resolver_match.url_name == 'dashboard' %}active:text-white opacity-100{% endif %}">
                 Dashboard
             </a>
-            <a href="{% url 'customer_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                <i class="fas fa-sticky-note mr-3"></i>
+            <a href="{% url 'customer_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item {% if request.resolver_match.url_name == 'customer_list' %}active:text-white opacity-100{% endif %}">
                 Customers
             </a>
-            <a href="{% url 'project_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                <i class="fas fa-table mr-3"></i>
+            <a href="{% url 'project_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item {% if request.resolver_match.url_name == 'project_list' %}active:text-white opacity-100{% endif %}">
                 Projects
             </a>
-            <a href="{% url 'document_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                <i class="fas fa-align-left mr-3"></i>
+            <a href="{% url 'document_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item {% if request.resolver_match.url_name == 'document_list' %}active:text-white opacity-100{% endif %}">
                 Documents
             </a>
-            <a href="{% url 'customer_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                <i class="fas fa-tablet-alt mr-3"></i>
-                Tabbed Content
+            <a href="{% url 'customer_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item {% if request.resolver_match.url_name == 'customer_list' %}active:text-white opacity-100{% endif %}">
+                Payments
             </a>
-            
         </nav>
-        
     </aside>
 
     <div class="w-full flex flex-col h-screen overflow-y-hidden">
         <!-- Desktop Header -->
-        <header class="w-auto items-center bg-gray-200 py-2 px-6 hidden sm:flex mr-3 my-3 rounded-lg">
-            <div class="w-1/2"></div>
-            <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+        {% comment %} <header class="w-auto items-center bg-gray-200 py-2 px-6 hidden sm:flex mr-3 my-3 rounded-lg">
+            <div class="w-1/2 text-3xl text-black">{% block title %}{% endblock %}</div>
+            <div id="dropdown" class="relative w-1/2 flex justify-end">
+                <button id="toggleDropdown" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
                     <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400">
                 </button>
-                <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
-                <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+                <div id="menu" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16 hidden">
                     <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
                     <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
                     <a href="#" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                 </div>
             </div>
+        </header> {% endcomment %}
+
+
+        <header class="w-auto items-center bg-gray-200 py-2 px-6 hidden sm:flex mr-3 my-3 rounded-lg">
+            <div class="w-1/2 text-3xl text-black">{% block title %}{% endblock %}</div>
+            <div id="dropdown" class="relative w-1/2 flex justify-end">
+                <button id="toggleDropdown" class="relative z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+                    <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400" alt="Profile Picture">
+                </button>
+        
+                <!-- Dropdown Menu -->
+                <div id="menu" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16 hidden">
+                    {% if user.is_authenticated %}
+                        <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
+                        <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
+                        
+                        <form action="{% url 'logout' %}" method="post" class="block px-4 py-2 account-link hover:text-white">
+                            {% csrf_token %}
+                            <button type="submit" >Logout</button>
+                        </form>
+                        
+                    {% else %}
+                        <a href="{% url 'login' %}" class="block px-4 py-2 account-link hover:text-white">Login</a>
+                        <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
+                    {% endif %}
+                </div>
+            </div>
         </header>
+{% comment %}         
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#toggleDropdown').click(function(event) {
+                    event.stopPropagation();
+                    $('#menu').toggleClass('hidden');
+                });
+        
+                $(document).click(function() {
+                    $('#menu').addClass('hidden');
+                });
+            });
+        </script> {% endcomment %}
+        
 
         <!-- Mobile Header & Nav -->
-        <header x-data="{ isOpen: false }" class="w-auto bg-sidebar py-5 px-6 sm:hidden m-3 rounded-lg">
+        <header id="header" class="w-auto bg-sidebar py-5 px-6 sm:hidden m-3 rounded-lg">
             <div class="flex items-center justify-between">
-                <a href="index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-                <button @click="isOpen = !isOpen" class="text-white text-3xl focus:outline-none">
-                    <i x-show="!isOpen" class="fas fa-bars"></i>
-                    <i x-show="isOpen" class="fas fa-times"></i>
-                </button>
+                <a href="{% url 'dashboard' %}" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+                {% comment %} <button id="toggleMenu" class="text-white text-3xl focus:outline-none"> {% endcomment %}
+                    <div class="barContainer">
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div>
+                {% comment %} </button> {% endcomment %}
             </div>
 
             <!-- Dropdown Nav -->
-            <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+            <nav id="dropdownNav" class="hidden flex-col pt-4">
                 <a href="{% url 'dashboard' %}" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
-                    <i class="fas fa-tachometer-alt mr-3"></i>
                     Dashboard
                 </a>
                 <a href="{% url 'customer_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-sticky-note mr-3"></i>
                     Customers
                 </a>
                 <a href="{% url 'project_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-table mr-3"></i>
                     Projects
                 </a>
                 <a href="{% url 'document_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-align-left mr-3"></i>
                     Documents
                 </a>
                 <a href="{% url 'customer_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-tablet-alt mr-3"></i>
                     Tabbed Content
                 </a>
                 <a href="{% url 'customer_list' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-calendar mr-3"></i>
                     Calendar
                 </a>
                 <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-cogs mr-3"></i>
                     Support
                 </a>
                 <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-user mr-3"></i>
                     My Account
                 </a>
                 <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-sign-out-alt mr-3"></i>
                     Sign Out
                 </a>
-                
             </nav>
-            <!-- <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                <i class="fas fa-plus mr-3"></i> New Report
-            </button> -->
         </header>
     
         {% block content %}
         {% endblock %}
         
     </div>
-
-    <!-- AlpineJS -->
-    <script src="//unpkg.com/alpinejs" defer></script>
-
-    <!-- Font Awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
-
-
-    <!-- Main Content Area -->
-    {% comment %} <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="pt-3 pb-2 mb-3 border-bottom">
-        {% block content %}
-        <!-- Page-specific content will be inserted here -->
-        {% endblock %}
-      </div>
-    </main> {% endcomment %}
-{% comment %} 
-  </div>
-</div> {% endcomment %}
-
-{% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
- {% endcomment %}
-
-
-
-
-
-
-{% comment %} <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% load static  %}">
-</head>
-<body>
-
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">CRM</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'customer_list' %}">Customers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'project_list' %}">Projects</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'document_list' %}">Documents</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'customer_list' %}">Payments</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- Main Container with Sidebar -->
-<div class="container-fluid">
-  <div class="row">
-    
-    <!-- Sidebar -->
-    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'dashboard' %}">
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'customer_list' %}">
-              Customers
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'project_list' %}">
-              Projects
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'document_list' %}">
-              Documents
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'customer_list' %}">
-              Payments
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    {% block content %}
-    <!-- Main Content -->
-    
-    {% endblock %}
-
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html> {% endcomment %}

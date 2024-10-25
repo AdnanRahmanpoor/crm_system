@@ -8,12 +8,12 @@
     <main class="w-auto flex-grow p-6 rounded-lg bg-gray-200 md:ml-0 m-3 overflow-auto">
        
         
-        <h1 class="text-3xl text-black pb-6">Customer List</h1>
+        {% comment %} <h1 class="text-3xl text-black pb-6">Customer List</h1> {% endcomment %}
     
         <!-- Dashboard Content Goes Here -->
     
-        <a href="{% url 'customer_create' %}" class='py-2.5 px-6 text-sm bg-indigo-500 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700 '>Add New Customer</a>
-        <table class="my-6">
+        <a href="{% url 'customer_create' %}" class='py-2.5 px-6 text-sm bg-indigo-500 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700'>Add New Customer</a>
+        <table class="my-6 w-full text-center">
           <tr>
               <th>Name</th>
               <th>Email</th>
@@ -23,11 +23,11 @@
           </tr>
           {% for customer in customers %}
           <tr class='bg-white shadow-lg shadow-gray-300'>
-              <td class="px-3 rounded-l-lg"><a href="{% url 'customer_detail' customer.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ customer.name}}</a></td>
+              <td class="p-3 rounded-l-lg"><a href="{% url 'customer_detail' customer.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ customer.name}}</a></td>
               <td class="px-3">{{ customer.email }}</td>
               <td class="px-3">{{ customer.phone }}</td>
               <td class="px-3">{{ customer.company }}</td>
-              <td class="px-3 rounded-r-lg">
+              <td class="pl-3 rounded-r-lg">
                   
                     <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
                         <a href="{% url 'customer_edit' customer.pk  %}" class="btn btn-warning">

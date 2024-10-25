@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
@@ -25,4 +26,9 @@ urlpatterns += [
     path('documents/', views.document_list, name='document_list'),
     path('documents/upload/', views.document_upload, name='document_upload'),
     path('documents/<int:document_id>/delete/', views.document_delete, name='document_delete'),
+]
+
+urlpatterns += [
+    path('login/', auth_views.LoginView.as_view(template_name='customer_management/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]

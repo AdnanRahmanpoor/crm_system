@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Customer, Project, Document
 from .forms import CustomerForm, ProjectForm, DocumentForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def dashboard(request):
 
     total_customers = Customer.objects.count()
@@ -19,11 +21,13 @@ def dashboard(request):
     return render(request, 'customer_management/dashboard.html', context)
 
 # List all customers
+@login_required
 def customer_list(request):
     customers = Customer.objects.all()
     return render(request, 'customer_management/customer_list.html', {'customers': customers})
 
 # creating new customer
+@login_required
 def customer_create(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -35,6 +39,7 @@ def customer_create(request):
     return render(request, 'customer_management/customer_form.html', {'form': form})
 
 # view customer
+@login_required
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     projects = Project.objects.filter(customer=customer)
@@ -49,6 +54,7 @@ def customer_detail(request, pk):
     return render(request, 'customer_management/customer_detail.html', context)
 
 # editing a customer
+@login_required
 def customer_edit(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == 'POST':
@@ -61,6 +67,7 @@ def customer_edit(request, pk):
     return render(request, 'customer_management/customer_form.html', {'form': form})
 
 # delete a customer
+@login_required
 def customer_delete(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == 'POST':
@@ -71,11 +78,13 @@ def customer_delete(request, pk):
 # PROJECTS
 
 # list all projects
+@login_required
 def project_list(request):
     projects = Project.objects.all()
     return render(request, 'customer_management/project_list.html', {'projects': projects})
 
 # creating new project
+@login_required
 def project_create(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
@@ -87,6 +96,7 @@ def project_create(request):
     return render(request, 'customer_management/project_form.html', {'form': form})
 
 # view a project
+@login_required
 def project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
     documents = Document.objects.filter(project=project)
@@ -99,6 +109,7 @@ def project_detail(request, pk):
     return render(request, 'customer_management/project_detail.html', context)
 
 # editing a project
+@login_required
 def project_edit(request, pk):
     project = get_object_or_404(Project, pk=pk)
     if request.method == 'POST':
@@ -111,6 +122,7 @@ def project_edit(request, pk):
     return render(request, 'customer_management/project_form.html', {'form': form})
 
 # delete a project
+@login_required
 def project_delete(request, pk):
     project = get_object_or_404(Project, pk=pk)
     if request.method == 'POST':
@@ -120,6 +132,7 @@ def project_delete(request, pk):
 
 # DOCUMENTS
 
+@login_required
 def document_upload(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -130,6 +143,7 @@ def document_upload(request):
         form = DocumentForm()
     return render(request, 'customer_management/document_upload.html', {'form': form})
 
+@login_required
 def document_list(request, customer_id=None, project_id=None):
     if customer_id:
         documents = Document.objects.filter(customer_id=customer_id)
@@ -140,7 +154,9 @@ def document_list(request, customer_id=None, project_id=None):
 
     return render(request, 'customer_management/document_list.html', {'documents': documents})
 
+@login_required
 def document_delete(request, document_id):
     document = get_object_or_404(Document, pk=document_id)
     document.delete()
     return redirect('document_list')
+
