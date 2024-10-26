@@ -1,10 +1,14 @@
 from django.db import models
+import uuid
 
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, blank=True)
     company = models.CharField(max_length=255)
+
+    access_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    token_expiration = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name

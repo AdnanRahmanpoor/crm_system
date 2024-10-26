@@ -1,7 +1,12 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Customer, Project, Document
 from .forms import CustomerForm, ProjectForm, DocumentForm
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from django.conf import settings
+from django.core.mail import send_mail
 
 @login_required
 def dashboard(request):
@@ -160,3 +165,51 @@ def document_delete(request, document_id):
     document.delete()
     return redirect('document_list')
 
+def generate_access_link(request, customer_id):
+    customer = get_object_or_404(Customer, pk=customer_id)
+
+    # set or update the token expiration 
+    customer.token_expiration = timezone.now() + timezone.timedelta(days=7)
+    customer.save()
+
+    # create access link
+    access_link = request.build_absolute_uri(f'/customer-access/{customer.access_token}/')
+
+    # send the link via email
+    send_mail(
+        'Access Your Documents',
+        f'Hello {customer.name},\n\nYou can access your documents using the following link: {access_link}\n\nBest, regards,\nCRM Team',
+        settings.DEFAULT_FROM_EMAIL,
+        [customer.email],
+        fail_silently=False,
+    )
+
+    return redirect('customer_list')
+
+def customer_access(request, token):
+    try:
+        customer = Customer.objects.get(access_token=token)
+        if customer.token_expiration and customer.token_expiration < timezone.now():
+            return HttpResponseForbidden("This link has expired.")
+        
+        documents = customer.documents.all()
+        return render(request, 'customer_management/customer_documents.html', {'customer': customer, 'documents': documents})
+    
+    except Customer.DoesNotExist:
+        return HttpResponseForbidden("Invalid access link.")
+    
+@csrf_exempt
+def upload_document(request, token):
+    # Retrieve the customer based on token and validate expiration
+    customer = get_object_or_404(Customer, access_token=token)
+    if request.method == "POST":
+        if customer.token_expiration and customer.token_expiration < timezone.now():
+            return HttpResponseForbidden("This link has expired.")
+    
+    # process document upload
+        document_file = request.FILES.get('document')
+        if document_file:
+            Document.objects.create(customer=customer, file=document_file)
+            return redirect('customer_access', token=token)
+        
+    return HttpResponseForbidden("Upload failed.")

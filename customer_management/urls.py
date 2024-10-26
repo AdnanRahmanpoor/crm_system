@@ -32,3 +32,10 @@ urlpatterns += [
     path('login/', auth_views.LoginView.as_view(template_name='customer_management/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
+
+urlpatterns += [
+    path('generate-access-link/<int:customer_id>/', views.generate_access_link, name='generate_access_link'),
+    path('customer_access/<uuid:token>/', views.customer_access, name='customer_access'),
+    path('upload_document/<uuid:token>/', views.upload_document, name='upload_document'),
+
+]

@@ -1,0 +1,19 @@
+<!-- customer_documents.html -->
+<h2>Documents for {{ customer.name }}</h2>
+
+{% if documents %}
+    {% for document in documents %}
+        <div>
+            <a href="{{ document.file.url }}" download>{{ document.file.name }}</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No documents available.</p>
+{% endif %}
+
+<!-- Document upload form -->
+<h3>Upload a New Document</h3>
+<form action="{% url 'upload_document' customer.access_token %}" method="post" enctype="multipart/form-data">
+    <input type="file" name="document" required>
+    <button type="submit">Upload</button>
+</form>

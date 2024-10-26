@@ -1,0 +1,29 @@
+{% extends 'customer_management/base.html' %}
+
+{% block title %}Documents{% endblock %}
+
+{% block content %}
+
+<main class="w-auto flex-grow p-6 rounded-lg bg-gray-200 md:ml-0 m-3 overflow-auto">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <!-- customer_documents.html -->
+    <h2>Documents for {{ customer.name }}</h2>
+
+    {% for document in documents %}
+    <div>
+        <a href="{{ document.file.url }}" download>{{ document.name }}</a>
+    </div>
+    {% endfor %}
+
+    <form action="{% url 'upload_document' customer.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="document">
+        <button type="submit">Upload</button>
+    </form>
+
+    
+  
+  </div>
+</main>
+
+{% endblock %}
