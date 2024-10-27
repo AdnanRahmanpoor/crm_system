@@ -14,9 +14,9 @@
       
       <ul class="w-full">
         {% for document in documents %}
-        <li class="bg-white shadow-lg shadow-gray-300 rounded-lg px-3 py-1 flex justify-between items-center">
+        <li class="bg-white shadow-lg shadow-gray-300 rounded-lg px-3 mb-2 flex justify-between items-center">
             <a href="{{ document.file.url }}" >{{ document.file.name }}</a>
-            <a href="{% url 'document_delete' document.id %}" class="inline-flex items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm text-white shadow-sm hover:bg-red-900 transition-all duration-500 focus:relative">Delete</a>
+            <a href="{% url 'document_delete' document.id %}" class="inline-flex items-center gap-2 rounded-md bg-red-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-red-900 transition-all duration-500 focus:relative">Delete</a>
         </li>
         {% empty %}
           <li>No documents found.</li>

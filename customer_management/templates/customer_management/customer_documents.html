@@ -1,19 +1,54 @@
-<!-- customer_documents.html -->
-<h2>Documents for {{ customer.name }}</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Dashboard</title>
+    <!-- Load custom static files -->
+     {% load static %}
+    <link rel="stylesheet" href="{% static "css/output.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
 
-{% if documents %}
-    {% for document in documents %}
-        <div>
-            <a href="{{ document.file.url }}" download>{{ document.file.name }}</a>
+</head>
+<body class="bg-white font-family-karla flex">
+
+    <div class="w-full overflow-x-hidden border-t flex flex-col">
+        <main class="w-auto flex-grow p-6 rounded-lg bg-gray-200 md:ml-0 m-3 overflow-auto">
+           
+            
+            {% comment %} <h1 class="text-3xl text-black pb-6">Dashboard</h1> {% endcomment %}
+        
+            <!-- Dashboard Content Goes Here -->
+            <!-- customer_documents.html -->
+            <h2>Documents for {{ customer.name }}</h2>
+        
+            {% if documents %}
+                {% for document in documents %}
+                    <div>
+                        <a href="{{ document.file.url }}" download>{{ document.file.name }}</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No documents available.</p>
+            {% endif %}
+        
+            <!-- Document upload form -->
+            <h3>Upload a New Document</h3>
+            <form action="{% url 'upload_document' customer.access_token %}" method="post" enctype="multipart/form-data">
+                <input type="file" name="document" required>
+                <button type="submit">Upload</button>
+            </form>
+        
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+        
+          </main>
         </div>
-    {% endfor %}
-{% else %}
-    <p>No documents available.</p>
-{% endif %}
-
-<!-- Document upload form -->
-<h3>Upload a New Document</h3>
-<form action="{% url 'upload_document' customer.access_token %}" method="post" enctype="multipart/form-data">
-    <input type="file" name="document" required>
-    <button type="submit">Upload</button>
-</form>
+</body>
+</html>

@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.conf import settings
 from django.core.mail import send_mail
+from django.contrib import messages
 
 @login_required
 def dashboard(request):
@@ -168,21 +169,26 @@ def document_delete(request, document_id):
 def generate_access_link(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
 
-    # set or update the token expiration 
-    customer.token_expiration = timezone.now() + timezone.timedelta(days=7)
-    customer.save()
+    try:
+        # set or update the token expiration 
+        customer.token_expiration = timezone.now() + timezone.timedelta(days=7)
+        customer.save()
 
-    # create access link
-    access_link = request.build_absolute_uri(f'/customer-access/{customer.access_token}/')
+        # create access link
+        access_link = request.build_absolute_uri(f'/customer-access/{customer.access_token}/')
 
-    # send the link via email
-    send_mail(
-        'Access Your Documents',
-        f'Hello {customer.name},\n\nYou can access your documents using the following link: {access_link}\n\nBest, regards,\nCRM Team',
-        settings.DEFAULT_FROM_EMAIL,
-        [customer.email],
-        fail_silently=False,
-    )
+        # send the link via email
+        send_mail(
+            'Access Your Documents',
+            f'Hello {customer.name},\n\nYou can access your documents using the following link: {access_link}\n\nBest, regards,\nCRM Team',
+            settings.DEFAULT_FROM_EMAIL,
+            [customer.email],
+            fail_silently=False,
+        )
+
+        messages.success(request, f"Access link sent to {customer.email} successfully.")
+    except Exception as e:
+        messages.error(request, "There was an error sending the access link. Please try again.")
 
     return redirect('customer_list')
 
@@ -190,12 +196,14 @@ def customer_access(request, token):
     try:
         customer = Customer.objects.get(access_token=token)
         if customer.token_expiration and customer.token_expiration < timezone.now():
-            return HttpResponseForbidden("This link has expired.")
+            messages.error(request, "The link has expired. Please request a new one.")
+            return redirect("request_link")
         
         documents = customer.documents.all()
         return render(request, 'customer_management/customer_documents.html', {'customer': customer, 'documents': documents})
     
     except Customer.DoesNotExist:
+        messages.error(request, "Invalid accesss link.")
         return HttpResponseForbidden("Invalid access link.")
     
 @csrf_exempt
@@ -204,12 +212,14 @@ def upload_document(request, token):
     customer = get_object_or_404(Customer, access_token=token)
     if request.method == "POST":
         if customer.token_expiration and customer.token_expiration < timezone.now():
-            return HttpResponseForbidden("This link has expired.")
+            messages.error(request, "The link has expired. Please request a new link.")
+            return redirect("login")
     
     # process document upload
         document_file = request.FILES.get('document')
         if document_file:
             Document.objects.create(customer=customer, file=document_file)
+            messages.success(request, "Document uploaded successfully.")
             return redirect('customer_access', token=token)
         
-    return HttpResponseForbidden("Upload failed.")
+    return messages.error(request, "There was an error uploading the document. Please try again.")

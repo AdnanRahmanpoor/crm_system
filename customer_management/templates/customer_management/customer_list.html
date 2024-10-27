@@ -80,12 +80,7 @@
                             </button>
                             </a>
                         </form>  
-
-                        <form action="{% url 'generate_access_link' customer.id %}" method="post" style="display:inline;" >
-                            {% csrf_token %}
-                            <button type="submit" >
-                                Send Access Link</button>
-                        </form>
+                        
                     </div>
               </td>
               

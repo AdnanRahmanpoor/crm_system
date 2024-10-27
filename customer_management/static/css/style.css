@@ -1,6 +1,6 @@
 .font-family-karla { font-family: roboto; }
 .bg-sidebar { background: #001440; }
-/* .active-nav-link { overlay: #c8cfe823; color: white;} */
+.active-nav-link {color: white; opacity: 100;}
 .nav-item:hover { background: #0b1f68; }
 .account-link:hover { background: #0b1f68; }
 table {
@@ -34,3 +34,12 @@ table {
   .change .bar3 {
     transform: translate(0, -11px) rotate(45deg);
   }
+
+/* In your CSS file */
+.messages .message {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+.message.success { background-color: #d4edda; color: #155724; }
+.message.error { background-color: #f8d7da; color: #721c24; }
