@@ -107,6 +107,10 @@ CRM-System/
 
 ## Views
 
+- **Dashboard**: Main dashboard view
+- **customer_list**: A view which lists all customers
+- **project_list**: A view which lists all projects 
+- **document_list**: A view which lists all documents
 - **generate_access_link**: Generates a secure access link for customers and sends it via email.
 - **customer_access**: Allows customers to view and upload documents based on a token.
 - **upload_document**: Allows customers to upload documents associated with their profile.
